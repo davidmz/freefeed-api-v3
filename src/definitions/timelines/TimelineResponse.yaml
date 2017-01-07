@@ -1,0 +1,18 @@
+type: object
+description: Timeline response
+required:
+  - timeline
+  - posts
+  - entities
+properties:
+  timeline:
+    type: string
+    format: uuid
+    description: Timeline UID
+  posts:
+    type: array
+    description: Timeline's posts
+    items:
+      $ref: '#/definitions/Post'
+  entities:
+    $ref: '#/definitions/EntitiesCollection'

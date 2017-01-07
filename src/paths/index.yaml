@@ -1,0 +1,55 @@
+# Accounts
+/accounts/user:
+  post:
+    $ref: './accounts/createNewUser.yaml'
+
+/accounts/group:
+  post:
+    $ref: './accounts/createNewGroup.yaml'
+
+/accounts/me:
+  get:
+    $ref: './accounts/getCurrentUserInfo.yaml'
+
+/accounts/{user}:
+  get:
+    $ref: './accounts/getUserInfo.yaml'
+  patch:
+    $ref: './accounts/updateUser.yaml'
+
+/accounts/{user}/profilePic:
+  $ref: './accounts/handleProfilePic.yaml'
+
+/accounts/{user}/ban:
+  $ref: './accounts/handleBans.yaml'
+
+# Subscriptions & administration
+/subscriptions/{fromUser}/to/{toUser}:
+  $ref: './subscriptions/handleSubscription.yaml'
+
+/subscriptionRequests/{fromUser}/to/{toUser}:
+  $ref: './subscriptions/handleSubscriptionRequest.yaml'
+
+/admins/{user}/of/{group}:
+  $ref: './subscriptions/handleAdmins.yaml'
+
+# Timelines
+/timelines/my/{feedName}:
+  $ref: './timelines/handleMyFeed.yaml'
+
+/timelines/{user}/{feedName}:
+  $ref: './timelines/handleUserFeed.yaml'
+
+# Posts
+/posts/{postId}:
+  $ref: './posts/handlePosts.yaml'
+
+/posts/{postId}/comments:
+  post:
+    $ref: './posts/createComment.yaml'
+
+/posts/{postId}/comments/{commentId}:
+  $ref: './posts/handleComment.yaml'
+
+/posts/{postId}/{action}:
+  $ref: './posts/handleActions.yaml'

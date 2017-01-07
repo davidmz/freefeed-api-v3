@@ -1,0 +1,48 @@
+post:
+  summary: Subscribe user to another user (or group)
+  description: >
+    Subscribe user to another user (or group). If user/group is private then
+    a subscription request is created. In this case `202 Accepted` returns.
+  operationId: subscribeUserToUser
+  tags: ['Subscriptions, admins, bans']
+  parameters:
+    - name: fromUser
+      description: >
+        User who want to subscribe. It must be a current (authorized) user.
+      in: path
+      type: string
+    - name: toUser
+      description: >
+        User or group to subscribe to.
+      in: path
+      type: string
+  responses:
+    200:
+      $ref: '#/responses/EmptyObject'
+    202:
+      description: Subscription request was created
+      schema:
+        $ref: '#/responses/EmptyObject'
+    default:
+      $ref: '#/responses/GeneralError'
+
+delete:
+  summary: Forced unsubscribe user from another user (or group).
+  operationId: unsubscribeUserFromUser
+  tags: ['Subscriptions, admins, bans']
+  parameters:
+    - name: fromUser
+      description: >
+        User to unsubscribe
+      in: path
+      type: string
+    - name: toUser
+      description: >
+        User or group to unsubscribe from. It must be a current (authorized) user or group he managed.
+      in: path
+      type: string
+  responses:
+    200:
+      $ref: '#/responses/EmptyObject'
+    default:
+      $ref: '#/responses/GeneralError'

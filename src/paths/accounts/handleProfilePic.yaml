@@ -1,0 +1,60 @@
+get:
+  summary: Get user's profile picture ID
+  operationId: getUserProfilePic
+  tags: [Accounts]
+  parameters:
+    - name: user
+      description: Username
+      in: path
+      type: string
+  responses:
+    200:
+      $ref: '#/responses/UserProfilePicture'
+    404:
+      description: User has no profile picture
+      schema:
+        $ref: '#/responses/GeneralError'
+    default:
+      $ref: '#/responses/GeneralError'
+
+post:
+  summary: Upload a new profile picture
+  operationId: setUserProfilePic
+  tags: [Accounts]
+  consumes:
+    - multipart/form-data
+  parameters:
+    - name: user
+      description: Username
+      in: path
+      type: string
+    - name: file
+      description: Picture file (JPEG, PNG, GIF)
+      in: formData
+      required: true
+      type: file
+  responses:
+    200:
+      $ref: '#/responses/UserProfilePicture'
+    default:
+      $ref: '#/responses/GeneralError'
+
+delete:
+  summary: Delete user's profile picture
+  operationId: deleteUserProfilePic
+  tags: [Accounts]
+  parameters:
+    - name: user
+      description: Username
+      in: path
+      type: string
+  responses:
+    200:
+      $ref: '#/responses/EmptyObject'
+    404:
+      description: User has no profile picture
+      schema:
+        $ref: '#/responses/GeneralError'
+    default:
+      $ref: '#/responses/GeneralError'
+

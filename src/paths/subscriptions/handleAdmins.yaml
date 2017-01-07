@@ -1,0 +1,37 @@
+post:
+  summary: Add a new administrator to the group
+  operationId: addGroupAdmin
+  tags: ['Subscriptions, admins, bans']
+  parameters:
+    - name: user
+      description: User who want to be admin
+      in: path
+      type: string
+    - name: group
+      description: Group to admin
+      in: path
+      type: string
+  responses:
+    200:
+      $ref: '#/responses/EmptyObject'
+    default:
+      $ref: '#/responses/GeneralError'
+
+delete:
+  summary: Revoke user's admin rights
+  operationId: removeGroupAdmin
+  tags: ['Subscriptions, admins, bans']
+  parameters:
+    - name: user
+      description: User who want to be admin
+      in: path
+      type: string
+    - name: group
+      description: Group to admin
+      in: path
+      type: string
+  responses:
+    200:
+      $ref: '#/responses/EmptyObject'
+    default:
+      $ref: '#/responses/GeneralError'

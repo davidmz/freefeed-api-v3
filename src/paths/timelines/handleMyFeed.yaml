@@ -1,0 +1,18 @@
+get:
+  summary: Get current user's homefeed
+  operationId: getMyFeed
+  tags: [Timelines]
+  parameters:
+    - name: feedName
+      in: path
+      type: string
+      enum: [ home, directs, discussions ]
+      required: true
+    - $ref: '#/parameters/limitParam'
+    - $ref: '#/parameters/offsetParam'
+    - $ref: '#/parameters/sortParam'
+  responses:
+    200:
+      $ref: '#/responses/Timeline'
+    default:
+      $ref: '#/responses/GeneralError'

@@ -1,0 +1,45 @@
+put:
+  summary: Update comment
+  operationId: updateComment
+  tags: [Posts]
+  parameters:
+    - name: postId
+      in: path
+      type: string
+      required: true
+    - name: commentId
+      in: path
+      type: string
+      required: true
+    - name: body
+      in: body
+      schema:
+        type: object
+        required: [ body ]
+        properties:
+          body:
+            type: string
+  responses:
+    200:
+      $ref: '#/responses/Comment'
+    default:
+      $ref: '#/responses/GeneralError'
+
+delete:
+  summary: Delete comment
+  operationId: deleteComment
+  tags: [Posts]
+  parameters:
+    - name: postId
+      in: path
+      type: string
+      required: true
+    - name: commentId
+      in: path
+      type: string
+      required: true
+  responses:
+    200:
+      $ref: '#/responses/EmptyObject'
+    default:
+      $ref: '#/responses/GeneralError'

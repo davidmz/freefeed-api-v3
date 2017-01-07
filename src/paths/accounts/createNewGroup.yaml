@@ -1,0 +1,13 @@
+summary: Create a new group with the current user as admin
+operationId: createNewGroup
+tags: [Accounts]
+parameters:
+  - name: body
+    in: body
+    schema:
+      $ref: '#/definitions/NewGroupData'
+responses:
+  200:
+    $ref: '#/responses/UserProfile'
+  default:
+    $ref: '#/responses/GeneralError'

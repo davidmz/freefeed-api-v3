@@ -1,0 +1,22 @@
+type: object
+description: Data for a new user account
+required:
+  - userName
+  - screenName
+  - email
+  - password
+properties:
+  userName:
+    type: string
+    description: Username (login)
+  screenName:
+    type: string
+    description: Screen name
+  email:
+    type: string
+    format: email
+    description: Email address
+  password:
+    type: string
+    format: password
+    description: Password

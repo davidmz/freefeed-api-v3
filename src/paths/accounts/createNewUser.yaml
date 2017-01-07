@@ -1,0 +1,13 @@
+summary: Create a new user
+operationId: createNewUser
+tags: [Accounts]
+parameters:
+  - name: body
+    in: body
+    schema:
+      $ref: '#/definitions/NewUserData'
+responses:
+  200:
+    $ref: '#/responses/UserProfile'
+  default:
+    $ref: '#/responses/GeneralError'

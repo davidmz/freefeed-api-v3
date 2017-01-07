@@ -1,0 +1,47 @@
+summary: Update user or group
+description: >
+  Update a group managed by current user or the current user himself.
+  All body fields are optional, only fields listed in the body will be updated.
+operationId: updateUser
+tags: [Accounts]
+parameters:
+  - name: user
+    description: Username
+    in: path
+    type: string
+  - name: body
+    in: body
+    schema:
+      type: object
+      properties:
+        screenName:
+          type: string
+          description: Screen name
+        isProtected:
+          type: boolean
+          description: Is account protected
+        isPrivate:
+          type: boolean
+          description: Is account private
+        description:
+          type: string
+          description: Account description
+        isRestricted:
+          type: boolean
+          default: false
+          description: >
+            For groups only: if _true_ then only admins can write to group
+        email:
+          type: string
+          format: email
+          description: Email address (for the current user only)
+        frontendPreferences:
+          type: object
+          description: >
+            Frontend-specific data (for the current user only). Updates using shallow merge algorithm.
+        # TODO write more
+responses:
+  200:
+    $ref: '#/responses/UserProfile'
+  default:
+    $ref: '#/responses/GeneralError'

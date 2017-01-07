@@ -1,0 +1,43 @@
+post:
+  summary: Perform an action on post
+  description: >
+    Available actions are: like, hide, disableComments.
+  operationId: performPostAction
+  tags: [Posts]
+  parameters:
+    - name: postId
+      in: path
+      type: string
+      required: true
+    - name: action
+      in: path
+      type: string
+      enum: [ like, hide, disableComments ]
+      required: true
+  responses:
+    200:
+      $ref: '#/responses/EmptyObject'
+    default:
+      $ref: '#/responses/GeneralError'
+
+delete:
+  summary: Cancel an action on post
+  description: >
+    Available actions are: like, hide, disableComments.
+  operationId: cancelPostAction
+  tags: [Posts]
+  parameters:
+    - name: postId
+      in: path
+      type: string
+      required: true
+    - name: action
+      in: path
+      type: string
+      enum: [ like, hide, disableComments ]
+      required: true
+  responses:
+    200:
+      $ref: '#/responses/EmptyObject'
+    default:
+      $ref: '#/responses/GeneralError'

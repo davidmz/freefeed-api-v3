@@ -1,0 +1,41 @@
+post:
+  summary: Accept subscription request from fromUser to toUser.
+  operationId: acceptSubscriptionRequest
+  tags: ['Subscriptions, admins, bans']
+  parameters:
+    - name: fromUser
+      description: >
+        User who want to subscribe.
+      in: path
+      type: string
+    - name: toUser
+      description: >
+        User or group to subscribe to. It must be a group managed by current user or the current user himself.
+      in: path
+      type: string
+  responses:
+    200:
+      $ref: '#/responses/EmptyObject'
+    default:
+      $ref: '#/responses/GeneralError'
+
+delete:
+  summary: Reject subscription request from fromUser to toUser
+  operationId: rejectSubscriptionRequest
+  tags: ['Subscriptions, admins, bans']
+  parameters:
+    - name: fromUser
+      description: >
+        User who want to subscribe.
+      in: path
+      type: string
+    - name: toUser
+      description: >
+        User or group to subscribe to. It must be a group managed by current user or the current user himself.
+      in: path
+      type: string
+  responses:
+    200:
+      $ref: '#/responses/EmptyObject'
+    default:
+      $ref: '#/responses/GeneralError'

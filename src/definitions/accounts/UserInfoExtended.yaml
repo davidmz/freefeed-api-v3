@@ -1,0 +1,52 @@
+type: object
+description: >
+  Extended user/group information. It returns in response to profile request.
+  If the viewer haven't rights to view user's profile (by privacy restrictions or
+  if any of them is banned by other) then some fields returns empty.
+required:
+  - description
+  - createdAt
+  - subscriptions
+  - subscribers
+  - administrators
+  - entities
+properties:
+  description:
+    type: string
+    description: Account description
+  createdAt:
+    type: string
+    format: date-time
+    description: Time of account creation
+  isRestricted:
+    type: boolean
+    default: false
+    description: |
+      For groups only: if _true_ then only admins can write to group
+  statistics:
+    type: object
+    description: Overall account statistics
+    properties:
+      posts:
+        type: integer
+        description: Count of user's posts
+      comments:
+        type: integer
+        description: Count of user's comments
+      likes:
+        type: integer
+        description: Count of user's likes
+  subscriptions:
+    description: Usernames of users subscribed to account (empty if viewer cannot see this profile)
+    allOf:
+      - $ref: '#/definitions/UsersWithDatesList'
+  subscribers:
+    description: Usernames of users account subscribed (empty if viewer cannot see this profile)
+    allOf:
+      - $ref: '#/definitions/UsersWithDatesList'
+  administrators:
+    description: Not empty for groups only. Usernames of group administrators (empty if not a group or viewer cannot see this profile)
+    allOf:
+      - $ref: '#/definitions/UsersList'
+  entities:
+    $ref: '#/definitions/EntitiesCollection'

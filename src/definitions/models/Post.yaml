@@ -1,0 +1,59 @@
+type: object
+description: Post object
+required:
+  - id
+  - author
+  - body
+  - destinations
+  - createdAt
+  - isProtected
+  - isPrivate
+  - isCommentsDisabled
+properties:
+  id:
+    type: string
+    format: uuid
+    description: Post UID
+  author:
+    type: string
+    description: Post author's username
+  body:
+    type: string
+    description: Post body
+  destinations:
+    type: array
+    items:
+      type: string
+      format: uuid
+      description: Timeline UID
+  createdAt:
+    type: string
+    format: date-time
+    description: Time when post created
+  isProtected:
+    type: boolean
+    description: Is post protected
+  isPrivate:
+    type: boolean
+    description: Is post private
+  isCommentsDisabled:
+    type: boolean
+    description: Is comments disabled
+  commentsCount:
+    type: integer
+    description: Total number of comments
+  likesCount:
+    type: integer
+    description: Total number of likes
+  comments:
+    type: array
+    description: Post's comments
+    items:
+      $ref: '#/definitions/Comment'
+  likes:
+    $ref: '#/definitions/UsersList'
+  attachments:
+    type: array
+    description: Post's attachments
+    items:
+      $ref: '#/definitions/Attachment'

@@ -1,0 +1,58 @@
+type: object
+description: Attachment object
+required:
+  - id
+  - author
+  - createdAt
+  - mediaType
+  - fileName
+  - fileSize
+  - width
+  - height
+  - artist
+  - title
+properties:
+  id:
+    type: string
+    format: uuid
+    description: Attachment UID
+  author:
+    type: string
+    description: Attachment author's username
+  createdAt:
+    type: string
+    format: date-time
+    description: Time when attachment created
+  mediaType:
+    type: string
+    description: Attachment type
+    enum: [ image, audio, general ]
+  fileName:
+    type: string
+    description: Original file name
+  fileSize:
+    type: integer
+    description: Original file size
+  imageSizes:
+    description: Available image sizes (only for `image` type, [] for others)
+    type: array
+    items:
+      type: object
+      required: [ sizeName, width, height ]
+      properties:
+        sizeName:
+          description: >
+            Name of size version. At least 'orig' version must present.
+          type: string
+        width:
+          type: integer
+          description: Image width in pixels (only for `image` type, 0 for others)
+        height:
+          type: integer
+          description: Image height in pixels (only for `image` type, 0 for others)
+  artist:
+    type: string
+    description: Audio artist name (only for `audio` type, '' for others)
+  title:
+    type: string
+    description: Audio track title (only for `audio` type, '' for others)

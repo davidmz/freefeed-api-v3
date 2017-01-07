@@ -1,0 +1,13 @@
+type: array
+description: List of usernames with timestamps
+items:
+  type: object
+  required:
+    - userName
+    - date
+  properties:
+    userName:
+      type: string
+    date:
+      type: string
+      format: date-time

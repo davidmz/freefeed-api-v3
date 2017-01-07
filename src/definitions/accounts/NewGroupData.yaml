@@ -1,0 +1,16 @@
+type: object
+description: Data for a new group account
+required:
+  - userName
+  - screenName
+  - isRestricted
+properties:
+  userName:
+    type: string
+    description: Username (login)
+  screenName:
+    type: string
+    description: Screen name
+  isRestricted:
+    type: boolean
+    description: True if only admins can write to group

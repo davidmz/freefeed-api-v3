@@ -1,0 +1,32 @@
+type: object
+description: |
+  Basic user/group information. It returns in all cases
+  when the user information required.
+required:
+  - userName
+  - screenName
+  - type
+  - isProtected
+  - isPrivate
+  - pictureId
+properties:
+  userName:
+    type: string
+    description: User name
+  screenName:
+    type: string
+    description: Screen name
+  type:
+    type: string
+    enum: [ user, group ]
+    description: Type of account
+  isProtected:
+    type: boolean
+    description: Is account protected
+  isPrivate:
+    type: boolean
+    description: Is account private
+  pictureId:
+    type: string
+    format: uuid
+    description: User profile picture UID

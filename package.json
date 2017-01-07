@@ -1,0 +1,18 @@
+{
+  "name": "freefeed-api",
+  "version": "0.0.1",
+  "private": true,
+  "main": "build.js",
+  "author": "David Mzareulyan",
+  "license": "MIT",
+  "scripts": {
+    "build": "node build.js",
+    "watch": "node build.js watch"
+  },
+  "devDependencies": {
+    "js-yaml": "^3.7.0",
+    "json-refs": "^2.1.6",
+    "node-watch": "^0.4.1",
+    "walk-sync": "^0.3.1"
+  }
+}

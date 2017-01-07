@@ -1,0 +1,81 @@
+get:
+  summary: Get a post
+  operationId: getPost
+  tags: [Posts]
+  parameters:
+    - name: postId
+      in: path
+      type: string
+      required: true
+    - name: comments
+      description: Show none, all or auto-collapsed comments
+      in: query
+      type: string
+      enum: [ none, all, auto ]
+      default: auto
+    - name: likes
+      description: Show none, all or auto-collapsed likes
+      in: query
+      type: string
+      enum: [ none, all, auto ]
+      default: auto
+  responses:
+    200:
+      $ref: '#/responses/Post'
+    default:
+      $ref: '#/responses/GeneralError'
+
+patch:
+  summary: Update post
+  description: >
+    All body fields are optional, only fields listed in the body will be updated.
+  operationId: updatePost
+  tags: [Posts]
+  parameters:
+    - name: postId
+      in: path
+      type: string
+      required: true
+    - name: body
+      in: body
+      schema:
+        type: object
+        properties:
+          body:
+            type: string
+            description: Post body
+          attachments:
+            type: array
+            description: List of attachment IDs
+            items:
+              type: string
+              format: uuid
+          isCommentsDisabled:
+            type: boolean
+            description: Is comments disabled
+          destinations:
+            type: array
+            items:
+              type: string
+              format: uuid
+              description: Timeline UID
+  responses:
+    200:
+      $ref: '#/responses/Post'
+    default:
+      $ref: '#/responses/GeneralError'
+
+delete:
+  summary: Delete post
+  operationId: deletePost
+  tags: [Posts]
+  parameters:
+    - name: postId
+      in: path
+      type: string
+      required: true
+  responses:
+    200:
+      $ref: '#/responses/EmptyObject'
+    default:
+      $ref: '#/responses/GeneralError'

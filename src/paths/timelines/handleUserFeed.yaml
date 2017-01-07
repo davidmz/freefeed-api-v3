@@ -1,0 +1,22 @@
+get:
+  summary: Get user's homefeed
+  operationId: getUserFeed
+  tags: [Timelines]
+  parameters:
+    - name: user
+      in: path
+      type: string
+      required: true
+    - name: feedName
+      in: path
+      type: string
+      enum: [ posts, comments, likes ]
+      required: true
+    - $ref: '#/parameters/limitParam'
+    - $ref: '#/parameters/offsetParam'
+    - $ref: '#/parameters/sortParam'
+  responses:
+    200:
+      $ref: '#/responses/Timeline'
+    default:
+      $ref: '#/responses/GeneralError'

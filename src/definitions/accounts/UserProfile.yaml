@@ -1,0 +1,3 @@
+allOf:
+  - $ref: '#/definitions/UserInfoBasic'
+  - $ref: '#/definitions/UserInfoExtended'

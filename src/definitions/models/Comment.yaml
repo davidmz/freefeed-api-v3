@@ -1,0 +1,22 @@
+type: object
+description: Comment object
+required:
+  - id
+  - author
+  - body
+  - createdAt
+properties:
+  id:
+    type: string
+    format: uuid
+    description: Comment UID
+  author:
+    type: string
+    description: Comment author's username
+  body:
+    type: string
+    description: Comment body
+  createdAt:
+    type: string
+    format: date-time
+    description: Time when comment created

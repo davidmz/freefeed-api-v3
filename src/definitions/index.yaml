@@ -1,0 +1,37 @@
+# THIS FILE IS AUTO GENERATED
+NewGroupData:
+  $ref: accounts/NewGroupData.yaml
+NewUserData:
+  $ref: accounts/NewUserData.yaml
+UserInfoBasic:
+  $ref: accounts/UserInfoBasic.yaml
+UserInfoCurrent:
+  $ref: accounts/UserInfoCurrent.yaml
+UserInfoExtended:
+  $ref: accounts/UserInfoExtended.yaml
+UserProfile:
+  $ref: accounts/UserProfile.yaml
+UserProfileCurrent:
+  $ref: accounts/UserProfileCurrent.yaml
+UserProfilePicture:
+  $ref: accounts/UserProfilePicture.yaml
+EmptyObject:
+  $ref: common/EmptyObject.yaml
+EntitiesCollection:
+  $ref: common/EntitiesCollection.yaml
+GeneralError:
+  $ref: common/GeneralError.yaml
+UsersList:
+  $ref: common/UsersList.yaml
+UsersWithDatesList:
+  $ref: common/UsersWithDatesList.yaml
+Attachment:
+  $ref: models/Attachment.yaml
+Comment:
+  $ref: models/Comment.yaml
+Post:
+  $ref: models/Post.yaml
+Timeline:
+  $ref: timelines/Timeline.yaml
+TimelineResponse:
+  $ref: timelines/TimelineResponse.yaml

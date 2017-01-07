@@ -1,0 +1,1088 @@
+# THIS FILE IS AUTO GENERATED
+swagger: '2.0'
+info:
+  title: Freefeed API
+  version: 3.0.0-alpha
+host: freefeed.net
+basePath: /v3
+schemes:
+  - https
+produces:
+  - application/json
+consumes:
+  - application/json
+paths:
+  /accounts/user:
+    post:
+      summary: Create a new user
+      operationId: createNewUser
+      tags:
+        - Accounts
+      parameters:
+        - name: body
+          in: body
+          schema:
+            $ref: '#/definitions/NewUserData'
+      responses:
+        '200':
+          $ref: '#/responses/UserProfile'
+        default:
+          $ref: '#/responses/GeneralError'
+  /accounts/group:
+    post:
+      summary: Create a new group with the current user as admin
+      operationId: createNewGroup
+      tags:
+        - Accounts
+      parameters:
+        - name: body
+          in: body
+          schema:
+            $ref: '#/definitions/NewGroupData'
+      responses:
+        '200':
+          $ref: '#/responses/UserProfile'
+        default:
+          $ref: '#/responses/GeneralError'
+  /accounts/me:
+    get:
+      summary: Get current (authorized) user's profile
+      operationId: getCurrentUserInfo
+      tags:
+        - Accounts
+      responses:
+        '200':
+          $ref: '#/responses/UserProfileCurrent'
+        default:
+          $ref: '#/responses/GeneralError'
+  '/accounts/{user}':
+    get:
+      summary: Get user's profile
+      operationId: getUserInfo
+      tags:
+        - Accounts
+      parameters:
+        - name: user
+          description: Username
+          in: path
+          type: string
+      responses:
+        '200':
+          $ref: '#/responses/UserProfile'
+        default:
+          $ref: '#/responses/GeneralError'
+    patch:
+      summary: Update user or group
+      description: >
+        Update a group managed by current user or the current user himself. All
+        body fields are optional, only fields listed in the body will be
+        updated.
+      operationId: updateUser
+      tags:
+        - Accounts
+      parameters:
+        - name: user
+          description: Username
+          in: path
+          type: string
+        - name: body
+          in: body
+          schema:
+            type: object
+            properties:
+              screenName:
+                type: string
+                description: Screen name
+              isProtected:
+                type: boolean
+                description: Is account protected
+              isPrivate:
+                type: boolean
+                description: Is account private
+              description:
+                type: string
+                description: Account description
+              isRestricted:
+                type: boolean
+                default: false
+                description: |
+                  For groups only: if _true_ then only admins can write to group
+              email:
+                type: string
+                format: email
+                description: Email address (for the current user only)
+              frontendPreferences:
+                type: object
+                description: >
+                  Frontend-specific data (for the current user only). Updates
+                  using shallow merge algorithm.
+      responses:
+        '200':
+          $ref: '#/responses/UserProfile'
+        default:
+          $ref: '#/responses/GeneralError'
+  '/accounts/{user}/profilePic':
+    get:
+      summary: Get user's profile picture ID
+      operationId: getUserProfilePic
+      tags:
+        - Accounts
+      parameters:
+        - name: user
+          description: Username
+          in: path
+          type: string
+      responses:
+        '200':
+          $ref: '#/responses/UserProfilePicture'
+        '404':
+          description: User has no profile picture
+          schema:
+            $ref: '#/responses/GeneralError'
+        default:
+          $ref: '#/responses/GeneralError'
+    post:
+      summary: Upload a new profile picture
+      operationId: setUserProfilePic
+      tags:
+        - Accounts
+      consumes:
+        - multipart/form-data
+      parameters:
+        - name: user
+          description: Username
+          in: path
+          type: string
+        - name: file
+          description: 'Picture file (JPEG, PNG, GIF)'
+          in: formData
+          required: true
+          type: file
+      responses:
+        '200':
+          $ref: '#/responses/UserProfilePicture'
+        default:
+          $ref: '#/responses/GeneralError'
+    delete:
+      summary: Delete user's profile picture
+      operationId: deleteUserProfilePic
+      tags:
+        - Accounts
+      parameters:
+        - name: user
+          description: Username
+          in: path
+          type: string
+      responses:
+        '200':
+          $ref: '#/responses/EmptyObject'
+        '404':
+          description: User has no profile picture
+          schema:
+            $ref: '#/responses/GeneralError'
+        default:
+          $ref: '#/responses/GeneralError'
+  '/accounts/{user}/ban':
+    post:
+      summary: Ban user
+      operationId: banUser
+      tags:
+        - 'Subscriptions, admins, bans'
+      parameters:
+        - name: user
+          description: User to ban
+          in: path
+          type: string
+      responses:
+        '200':
+          $ref: '#/responses/EmptyObject'
+        default:
+          $ref: '#/responses/GeneralError'
+    delete:
+      summary: Un-ban user
+      operationId: unBanUser
+      tags:
+        - 'Subscriptions, admins, bans'
+      parameters:
+        - name: user
+          description: User to unban
+          in: path
+          type: string
+      responses:
+        '200':
+          $ref: '#/responses/EmptyObject'
+        default:
+          $ref: '#/responses/GeneralError'
+  '/subscriptions/{fromUser}/to/{toUser}':
+    post:
+      summary: Subscribe user to another user (or group)
+      description: >
+        Subscribe user to another user (or group). If user/group is private then
+        a subscription request is created. In this case `202 Accepted` returns.
+      operationId: subscribeUserToUser
+      tags:
+        - 'Subscriptions, admins, bans'
+      parameters:
+        - name: fromUser
+          description: |
+            User who want to subscribe. It must be a current (authorized) user.
+          in: path
+          type: string
+        - name: toUser
+          description: |
+            User or group to subscribe to.
+          in: path
+          type: string
+      responses:
+        '200':
+          $ref: '#/responses/EmptyObject'
+        '202':
+          description: Subscription request was created
+          schema:
+            $ref: '#/responses/EmptyObject'
+        default:
+          $ref: '#/responses/GeneralError'
+    delete:
+      summary: Forced unsubscribe user from another user (or group).
+      operationId: unsubscribeUserFromUser
+      tags:
+        - 'Subscriptions, admins, bans'
+      parameters:
+        - name: fromUser
+          description: |
+            User to unsubscribe
+          in: path
+          type: string
+        - name: toUser
+          description: >
+            User or group to unsubscribe from. It must be a current (authorized)
+            user or group he managed.
+          in: path
+          type: string
+      responses:
+        '200':
+          $ref: '#/responses/EmptyObject'
+        default:
+          $ref: '#/responses/GeneralError'
+  '/subscriptionRequests/{fromUser}/to/{toUser}':
+    post:
+      summary: Accept subscription request from fromUser to toUser.
+      operationId: acceptSubscriptionRequest
+      tags:
+        - 'Subscriptions, admins, bans'
+      parameters:
+        - name: fromUser
+          description: |
+            User who want to subscribe.
+          in: path
+          type: string
+        - name: toUser
+          description: >
+            User or group to subscribe to. It must be a group managed by current
+            user or the current user himself.
+          in: path
+          type: string
+      responses:
+        '200':
+          $ref: '#/responses/EmptyObject'
+        default:
+          $ref: '#/responses/GeneralError'
+    delete:
+      summary: Reject subscription request from fromUser to toUser
+      operationId: rejectSubscriptionRequest
+      tags:
+        - 'Subscriptions, admins, bans'
+      parameters:
+        - name: fromUser
+          description: |
+            User who want to subscribe.
+          in: path
+          type: string
+        - name: toUser
+          description: >
+            User or group to subscribe to. It must be a group managed by current
+            user or the current user himself.
+          in: path
+          type: string
+      responses:
+        '200':
+          $ref: '#/responses/EmptyObject'
+        default:
+          $ref: '#/responses/GeneralError'
+  '/admins/{user}/of/{group}':
+    post:
+      summary: Add a new administrator to the group
+      operationId: addGroupAdmin
+      tags:
+        - 'Subscriptions, admins, bans'
+      parameters:
+        - name: user
+          description: User who want to be admin
+          in: path
+          type: string
+        - name: group
+          description: Group to admin
+          in: path
+          type: string
+      responses:
+        '200':
+          $ref: '#/responses/EmptyObject'
+        default:
+          $ref: '#/responses/GeneralError'
+    delete:
+      summary: Revoke user's admin rights
+      operationId: removeGroupAdmin
+      tags:
+        - 'Subscriptions, admins, bans'
+      parameters:
+        - name: user
+          description: User who want to be admin
+          in: path
+          type: string
+        - name: group
+          description: Group to admin
+          in: path
+          type: string
+      responses:
+        '200':
+          $ref: '#/responses/EmptyObject'
+        default:
+          $ref: '#/responses/GeneralError'
+  '/timelines/my/{feedName}':
+    get:
+      summary: Get current user's homefeed
+      operationId: getMyFeed
+      tags:
+        - Timelines
+      parameters:
+        - name: feedName
+          in: path
+          type: string
+          enum:
+            - home
+            - directs
+            - discussions
+          required: true
+        - $ref: '#/parameters/limitParam'
+        - $ref: '#/parameters/offsetParam'
+        - $ref: '#/parameters/sortParam'
+      responses:
+        '200':
+          $ref: '#/responses/Timeline'
+        default:
+          $ref: '#/responses/GeneralError'
+  '/timelines/{user}/{feedName}':
+    get:
+      summary: Get user's homefeed
+      operationId: getUserFeed
+      tags:
+        - Timelines
+      parameters:
+        - name: user
+          in: path
+          type: string
+          required: true
+        - name: feedName
+          in: path
+          type: string
+          enum:
+            - posts
+            - comments
+            - likes
+          required: true
+        - $ref: '#/parameters/limitParam'
+        - $ref: '#/parameters/offsetParam'
+        - $ref: '#/parameters/sortParam'
+      responses:
+        '200':
+          $ref: '#/responses/Timeline'
+        default:
+          $ref: '#/responses/GeneralError'
+  '/posts/{postId}':
+    get:
+      summary: Get a post
+      operationId: getPost
+      tags:
+        - Posts
+      parameters:
+        - name: postId
+          in: path
+          type: string
+          required: true
+        - name: comments
+          description: 'Show none, all or auto-collapsed comments'
+          in: query
+          type: string
+          enum:
+            - none
+            - all
+            - auto
+          default: auto
+        - name: likes
+          description: 'Show none, all or auto-collapsed likes'
+          in: query
+          type: string
+          enum:
+            - none
+            - all
+            - auto
+          default: auto
+      responses:
+        '200':
+          $ref: '#/responses/Post'
+        default:
+          $ref: '#/responses/GeneralError'
+    patch:
+      summary: Update post
+      description: >
+        All body fields are optional, only fields listed in the body will be
+        updated.
+      operationId: updatePost
+      tags:
+        - Posts
+      parameters:
+        - name: postId
+          in: path
+          type: string
+          required: true
+        - name: body
+          in: body
+          schema:
+            type: object
+            properties:
+              body:
+                type: string
+                description: Post body
+              attachments:
+                type: array
+                description: List of attachment IDs
+                items:
+                  type: string
+                  format: uuid
+              isCommentsDisabled:
+                type: boolean
+                description: Is comments disabled
+              destinations:
+                type: array
+                items:
+                  type: string
+                  format: uuid
+                  description: Timeline UID
+      responses:
+        '200':
+          $ref: '#/responses/Post'
+        default:
+          $ref: '#/responses/GeneralError'
+    delete:
+      summary: Delete post
+      operationId: deletePost
+      tags:
+        - Posts
+      parameters:
+        - name: postId
+          in: path
+          type: string
+          required: true
+      responses:
+        '200':
+          $ref: '#/responses/EmptyObject'
+        default:
+          $ref: '#/responses/GeneralError'
+  '/posts/{postId}/comments':
+    post:
+      summary: Create comment
+      operationId: createComment
+      tags:
+        - Posts
+      parameters:
+        - name: postId
+          in: path
+          type: string
+          required: true
+        - name: body
+          in: body
+          schema:
+            type: object
+            required:
+              - body
+            properties:
+              body:
+                type: string
+      responses:
+        '200':
+          $ref: '#/responses/Comment'
+        default:
+          $ref: '#/responses/GeneralError'
+  '/posts/{postId}/comments/{commentId}':
+    put:
+      summary: Update comment
+      operationId: updateComment
+      tags:
+        - Posts
+      parameters:
+        - name: postId
+          in: path
+          type: string
+          required: true
+        - name: commentId
+          in: path
+          type: string
+          required: true
+        - name: body
+          in: body
+          schema:
+            type: object
+            required:
+              - body
+            properties:
+              body:
+                type: string
+      responses:
+        '200':
+          $ref: '#/responses/Comment'
+        default:
+          $ref: '#/responses/GeneralError'
+    delete:
+      summary: Delete comment
+      operationId: deleteComment
+      tags:
+        - Posts
+      parameters:
+        - name: postId
+          in: path
+          type: string
+          required: true
+        - name: commentId
+          in: path
+          type: string
+          required: true
+      responses:
+        '200':
+          $ref: '#/responses/EmptyObject'
+        default:
+          $ref: '#/responses/GeneralError'
+  '/posts/{postId}/{action}':
+    post:
+      summary: Perform an action on post
+      description: |
+        Available actions are: like, hide, disableComments.
+      operationId: performPostAction
+      tags:
+        - Posts
+      parameters:
+        - name: postId
+          in: path
+          type: string
+          required: true
+        - name: action
+          in: path
+          type: string
+          enum:
+            - like
+            - hide
+            - disableComments
+          required: true
+      responses:
+        '200':
+          $ref: '#/responses/EmptyObject'
+        default:
+          $ref: '#/responses/GeneralError'
+    delete:
+      summary: Cancel an action on post
+      description: |
+        Available actions are: like, hide, disableComments.
+      operationId: cancelPostAction
+      tags:
+        - Posts
+      parameters:
+        - name: postId
+          in: path
+          type: string
+          required: true
+        - name: action
+          in: path
+          type: string
+          enum:
+            - like
+            - hide
+            - disableComments
+          required: true
+      responses:
+        '200':
+          $ref: '#/responses/EmptyObject'
+        default:
+          $ref: '#/responses/GeneralError'
+parameters:
+  limitParam:
+    name: limit
+    in: query
+    description: Number of posts to show
+    default: 30
+    type: integer
+  offsetParam:
+    name: offset
+    in: query
+    description: Number of posts to skip
+    default: 0
+    type: integer
+  sortParam:
+    name: sort
+    in: query
+    description: Sort mode
+    type: string
+    enum:
+      - updated
+      - created
+responses:
+  GeneralError:
+    description: General error response
+    schema:
+      $ref: '#/definitions/GeneralError'
+  EmptyObject:
+    description: Empty object response
+    schema:
+      $ref: '#/definitions/EmptyObject'
+  UserProfile:
+    description: >
+      Extended user/group information. It returns in response to profile
+      request. If the viewer haven't rights to view user's profile (by privacy
+      restrictions or if any of them is banned by other) then some fields
+      returns empty.
+    schema:
+      $ref: '#/definitions/UserProfile'
+  UserProfileCurrent:
+    description: >
+      Current user information. This data returns only to user himself in
+      response to `/accounts/me` request.
+    schema:
+      $ref: '#/definitions/UserProfileCurrent'
+  UserProfilePicture:
+    description: Profile picture UID
+    schema:
+      $ref: '#/definitions/UserProfilePicture'
+  Timeline:
+    description: Timeline response
+    schema:
+      $ref: '#/definitions/TimelineResponse'
+  Post:
+    description: Post response
+    schema:
+      type: object
+      required:
+        - post
+        - entities
+      properties:
+        post:
+          $ref: '#/definitions/Post'
+        entities:
+          $ref: '#/definitions/EntitiesCollection'
+  Comment:
+    description: Comment response
+    schema:
+      $ref: '#/definitions/Comment'
+definitions:
+  NewGroupData:
+    type: object
+    description: Data for a new group account
+    required:
+      - userName
+      - screenName
+      - isRestricted
+    properties:
+      userName:
+        type: string
+        description: Username (login)
+      screenName:
+        type: string
+        description: Screen name
+      isRestricted:
+        type: boolean
+        description: True if only admins can write to group
+  NewUserData:
+    type: object
+    description: Data for a new user account
+    required:
+      - userName
+      - screenName
+      - email
+      - password
+    properties:
+      userName:
+        type: string
+        description: Username (login)
+      screenName:
+        type: string
+        description: Screen name
+      email:
+        type: string
+        format: email
+        description: Email address
+      password:
+        type: string
+        format: password
+        description: Password
+  UserInfoBasic:
+    type: object
+    description: |
+      Basic user/group information. It returns in all cases
+      when the user information required.
+    required:
+      - userName
+      - screenName
+      - type
+      - isProtected
+      - isPrivate
+      - pictureId
+    properties:
+      userName:
+        type: string
+        description: User name
+      screenName:
+        type: string
+        description: Screen name
+      type:
+        type: string
+        enum:
+          - user
+          - group
+        description: Type of account
+      isProtected:
+        type: boolean
+        description: Is account protected
+      isPrivate:
+        type: boolean
+        description: Is account private
+      pictureId:
+        type: string
+        format: uuid
+        description: User profile picture UID
+  UserInfoCurrent:
+    type: object
+    description: >
+      Current user information. This data returns only to user himself in
+      response to `/accounts/me` request.
+    required:
+      - email
+      - frontendPreferences
+      - banned
+    properties:
+      email:
+        type: string
+        format: email
+        description: Email address
+      frontendPreferences:
+        type: object
+        description: Frontend-specific data
+      banned:
+        description: Usernames of banned users
+        allOf:
+          - $ref: '#/definitions/UsersWithDatesList'
+  UserInfoExtended:
+    type: object
+    description: >
+      Extended user/group information. It returns in response to profile
+      request. If the viewer haven't rights to view user's profile (by privacy
+      restrictions or if any of them is banned by other) then some fields
+      returns empty.
+    required:
+      - description
+      - createdAt
+      - subscriptions
+      - subscribers
+      - administrators
+      - entities
+    properties:
+      description:
+        type: string
+        description: Account description
+      createdAt:
+        type: string
+        format: date-time
+        description: Time of account creation
+      isRestricted:
+        type: boolean
+        default: false
+        description: |
+          For groups only: if _true_ then only admins can write to group
+      statistics:
+        type: object
+        description: Overall account statistics
+        properties:
+          posts:
+            type: integer
+            description: Count of user's posts
+          comments:
+            type: integer
+            description: Count of user's comments
+          likes:
+            type: integer
+            description: Count of user's likes
+      subscriptions:
+        description: >-
+          Usernames of users subscribed to account (empty if viewer cannot see
+          this profile)
+        allOf:
+          - $ref: '#/definitions/UsersWithDatesList'
+      subscribers:
+        description: >-
+          Usernames of users account subscribed (empty if viewer cannot see this
+          profile)
+        allOf:
+          - $ref: '#/definitions/UsersWithDatesList'
+      administrators:
+        description: >-
+          Not empty for groups only. Usernames of group administrators (empty if
+          not a group or viewer cannot see this profile)
+        allOf:
+          - $ref: '#/definitions/UsersList'
+      entities:
+        $ref: '#/definitions/EntitiesCollection'
+  UserProfile:
+    allOf:
+      - $ref: '#/definitions/UserInfoBasic'
+      - $ref: '#/definitions/UserInfoExtended'
+  UserProfileCurrent:
+    allOf:
+      - $ref: '#/definitions/UserProfile'
+      - $ref: '#/definitions/UserInfoCurrent'
+  UserProfilePicture:
+    type: object
+    required:
+      - id
+    properties:
+      id:
+        type: string
+        format: uuid
+        description: Profile picture UID
+  EmptyObject:
+    type: object
+    description: Empty object.
+  EntitiesCollection:
+    type: object
+    description: Collection of entities referenced in top-level object
+    properties:
+      users:
+        type: array
+        items:
+          $ref: '#/definitions/UserInfoBasic'
+      timelines:
+        type: array
+        items:
+          $ref: '#/definitions/Timeline'
+  GeneralError:
+    type: object
+    description: General type for all API errors.
+    required:
+      - code
+      - message
+    properties:
+      code:
+        type: string
+        description: 'Machine-readable error code, for example `NotFound`'
+      message:
+        type: string
+        description: Human-readable error message
+  UsersList:
+    type: array
+    description: List of usernames
+    items:
+      type: string
+  UsersWithDatesList:
+    type: array
+    description: List of usernames with timestamps
+    items:
+      type: object
+      required:
+        - userName
+        - date
+      properties:
+        userName:
+          type: string
+        date:
+          type: string
+          format: date-time
+  Attachment:
+    type: object
+    description: Attachment object
+    required:
+      - id
+      - author
+      - createdAt
+      - mediaType
+      - fileName
+      - fileSize
+      - width
+      - height
+      - artist
+      - title
+    properties:
+      id:
+        type: string
+        format: uuid
+        description: Attachment UID
+      author:
+        type: string
+        description: Attachment author's username
+      createdAt:
+        type: string
+        format: date-time
+        description: Time when attachment created
+      mediaType:
+        type: string
+        description: Attachment type
+        enum:
+          - image
+          - audio
+          - general
+      fileName:
+        type: string
+        description: Original file name
+      fileSize:
+        type: integer
+        description: Original file size
+      imageSizes:
+        description: 'Available image sizes (only for `image` type, [] for others)'
+        type: array
+        items:
+          type: object
+          required:
+            - sizeName
+            - width
+            - height
+          properties:
+            sizeName:
+              description: |
+                Name of size version. At least 'orig' version must present.
+              type: string
+            width:
+              type: integer
+              description: 'Image width in pixels (only for `image` type, 0 for others)'
+            height:
+              type: integer
+              description: 'Image height in pixels (only for `image` type, 0 for others)'
+      artist:
+        type: string
+        description: 'Audio artist name (only for `audio` type, '''' for others)'
+      title:
+        type: string
+        description: 'Audio track title (only for `audio` type, '''' for others)'
+  Comment:
+    type: object
+    description: Comment object
+    required:
+      - id
+      - author
+      - body
+      - createdAt
+    properties:
+      id:
+        type: string
+        format: uuid
+        description: Comment UID
+      author:
+        type: string
+        description: Comment author's username
+      body:
+        type: string
+        description: Comment body
+      createdAt:
+        type: string
+        format: date-time
+        description: Time when comment created
+  Post:
+    type: object
+    description: Post object
+    required:
+      - id
+      - author
+      - body
+      - destinations
+      - createdAt
+      - isProtected
+      - isPrivate
+      - isCommentsDisabled
+    properties:
+      id:
+        type: string
+        format: uuid
+        description: Post UID
+      author:
+        type: string
+        description: Post author's username
+      body:
+        type: string
+        description: Post body
+      destinations:
+        type: array
+        items:
+          type: string
+          format: uuid
+          description: Timeline UID
+      createdAt:
+        type: string
+        format: date-time
+        description: Time when post created
+      isProtected:
+        type: boolean
+        description: Is post protected
+      isPrivate:
+        type: boolean
+        description: Is post private
+      isCommentsDisabled:
+        type: boolean
+        description: Is comments disabled
+      commentsCount:
+        type: integer
+        description: Total number of comments
+      likesCount:
+        type: integer
+        description: Total number of likes
+      comments:
+        type: array
+        description: Post's comments
+        items:
+          $ref: '#/definitions/Comment'
+      likes:
+        $ref: '#/definitions/UsersList'
+      attachments:
+        type: array
+        description: Post's attachments
+        items:
+          $ref: '#/definitions/Attachment'
+  Timeline:
+    type: object
+    description: Timeline data
+    required:
+      - id
+      - owner
+      - name
+    properties:
+      id:
+        type: string
+        format: uuid
+        description: Timeline UID
+      owner:
+        type: string
+        description: Timeline owner's username
+      name:
+        type: string
+        description: Timeline name (type)
+  TimelineResponse:
+    type: object
+    description: Timeline response
+    required:
+      - timeline
+      - posts
+      - entities
+    properties:
+      timeline:
+        type: string
+        format: uuid
+        description: Timeline UID
+      posts:
+        type: array
+        description: Timeline's posts
+        items:
+          $ref: '#/definitions/Post'
+      entities:
+        $ref: '#/definitions/EntitiesCollection'

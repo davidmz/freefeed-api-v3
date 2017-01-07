@@ -1,0 +1,21 @@
+type: object
+description: >
+  Current user information. This data returns only to user himself
+  in response to `/accounts/me` request.
+required:
+  - email
+  - frontendPreferences
+  - banned
+properties:
+  email:
+    type: string
+    format: email
+    description: Email address
+  frontendPreferences:
+    type: object
+    description: Frontend-specific data
+  banned:
+    description: Usernames of banned users
+    allOf:
+      - $ref: '#/definitions/UsersWithDatesList'
+  # TODO write more

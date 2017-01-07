@@ -1,0 +1,13 @@
+summary: Get user's profile
+operationId: getUserInfo
+tags: [Accounts]
+parameters:
+  - name: user
+    description: Username
+    in: path
+    type: string
+responses:
+  200:
+    $ref: '#/responses/UserProfile'
+  default:
+    $ref: '#/responses/GeneralError'

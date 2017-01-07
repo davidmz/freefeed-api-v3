@@ -1,0 +1,29 @@
+post:
+  summary: Ban user
+  operationId: banUser
+  tags: ['Subscriptions, admins, bans']
+  parameters:
+    - name: user
+      description: User to ban
+      in: path
+      type: string
+  responses:
+    200:
+      $ref: '#/responses/EmptyObject'
+    default:
+      $ref: '#/responses/GeneralError'
+
+delete:
+  summary: Un-ban user
+  operationId: unBanUser
+  tags: ['Subscriptions, admins, bans']
+  parameters:
+    - name: user
+      description: User to unban
+      in: path
+      type: string
+  responses:
+    200:
+      $ref: '#/responses/EmptyObject'
+    default:
+      $ref: '#/responses/GeneralError'

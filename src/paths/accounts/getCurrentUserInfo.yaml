@@ -1,0 +1,8 @@
+summary: Get current (authorized) user's profile
+operationId: getCurrentUserInfo
+tags: [Accounts]
+responses:
+  200:
+    $ref: '#/responses/UserProfileCurrent'
+  default:
+    $ref: '#/responses/GeneralError'
