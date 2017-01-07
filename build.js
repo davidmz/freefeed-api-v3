@@ -50,7 +50,7 @@ function build() {
         .then(results => {
             const yaml = YAML.safeDump(results.resolved);
             fs.writeFileSync(path.join(tgtRoot, 'swagger.yaml'), `# THIS FILE IS AUTO GENERATED\n${yaml}`);
-            fs.writeFileSync(path.join(webRoot, 'swagger.yaml'), `# THIS FILE IS AUTO GENERATED\n${yaml}`);
+            fs.writeFileSync(path.join(webRoot, 'swagger.json'), JSON.stringify(results.resolved));
         })
         .catch(err => console.error('Error:', err));
 }
