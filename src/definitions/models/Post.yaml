@@ -8,6 +8,7 @@ required:
   - createdAt
   - isProtected
   - isPrivate
+  - isHidden
   - isCommentsDisabled
 properties:
   id:
@@ -36,6 +37,9 @@ properties:
   isPrivate:
     type: boolean
     description: Is post private
+  isHidden:
+    type: boolean
+    description: Is post hidden in current user's homefeed
   isCommentsDisabled:
     type: boolean
     description: Is comments disabled
