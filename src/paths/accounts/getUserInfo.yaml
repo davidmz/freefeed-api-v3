@@ -5,6 +5,7 @@ parameters:
   - name: user
     description: Username
     in: path
+    required: true
     type: string
 responses:
   200:

@@ -36,6 +36,7 @@ delete:
       required: true
     - name: commentId
       in: path
+      required: true
       type: string
       required: true
   responses:

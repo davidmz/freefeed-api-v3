@@ -6,6 +6,7 @@ get:
     - name: user
       description: Username
       in: path
+      required: true
       type: string
   responses:
     200:
@@ -27,6 +28,7 @@ post:
     - name: user
       description: Username
       in: path
+      required: true
       type: string
     - name: file
       description: Picture file (JPEG, PNG, GIF)
@@ -47,6 +49,7 @@ delete:
     - name: user
       description: Username
       in: path
+      required: true
       type: string
   responses:
     200:

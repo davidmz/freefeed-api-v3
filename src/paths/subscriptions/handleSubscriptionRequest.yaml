@@ -7,11 +7,13 @@ post:
       description: >
         User who want to subscribe.
       in: path
+      required: true
       type: string
     - name: toUser
       description: >
         User or group to subscribe to. It must be a group managed by current user or the current user himself.
       in: path
+      required: true
       type: string
   responses:
     200:
@@ -28,11 +30,13 @@ delete:
       description: >
         User who want to subscribe.
       in: path
+      required: true
       type: string
     - name: toUser
       description: >
         User or group to subscribe to. It must be a group managed by current user or the current user himself.
       in: path
+      required: true
       type: string
   responses:
     200:

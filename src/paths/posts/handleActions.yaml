@@ -11,6 +11,7 @@ post:
       required: true
     - name: action
       in: path
+      required: true
       type: string
       enum: [ like, hide, disableComments ]
       required: true

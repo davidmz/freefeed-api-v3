@@ -10,11 +10,13 @@ post:
       description: >
         User who want to subscribe. It must be a current (authorized) user.
       in: path
+      required: true
       type: string
     - name: toUser
       description: >
         User or group to subscribe to.
       in: path
+      required: true
       type: string
   responses:
     200:
@@ -35,11 +37,13 @@ delete:
       description: >
         User to unsubscribe
       in: path
+      required: true
       type: string
     - name: toUser
       description: >
         User or group to unsubscribe from. It must be a current (authorized) user or group he managed.
       in: path
+      required: true
       type: string
   responses:
     200:

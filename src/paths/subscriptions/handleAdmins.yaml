@@ -6,10 +6,12 @@ post:
     - name: user
       description: User who want to be admin
       in: path
+      required: true
       type: string
     - name: group
       description: Group to admin
       in: path
+      required: true
       type: string
   responses:
     200:
@@ -25,10 +27,12 @@ delete:
     - name: user
       description: User who want to be admin
       in: path
+      required: true
       type: string
     - name: group
       description: Group to admin
       in: path
+      required: true
       type: string
   responses:
     200:
