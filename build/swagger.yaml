@@ -533,9 +533,104 @@ paths:
         default:
           $ref: '#/responses/GeneralError'
   '/posts/{postId}/comments/{commentId}':
-    $ref: ./posts/handleComment.yaml
+    put:
+      summary: Update comment
+      operationId: updateComment
+      tags:
+        - Posts
+      parameters:
+        - name: postId
+          in: path
+          type: string
+          required: true
+        - name: commentId
+          in: path
+          type: string
+          required: true
+        - name: body
+          in: body
+          schema:
+            type: object
+            required:
+              - body
+            properties:
+              body:
+                type: string
+      responses:
+        '200':
+          $ref: '#/responses/Comment'
+        default:
+          $ref: '#/responses/GeneralError'
+    delete:
+      summary: Delete comment
+      operationId: deleteComment
+      tags:
+        - Posts
+      parameters:
+        - name: postId
+          in: path
+          type: string
+          required: true
+        - name: commentId
+          in: path
+          required: true
+          type: string
+      responses:
+        '200':
+          $ref: '#/responses/EmptyObject'
+        default:
+          $ref: '#/responses/GeneralError'
   '/posts/{postId}/{action}':
-    $ref: ./posts/handleActions.yaml
+    post:
+      summary: Perform an action on post
+      description: |
+        Available actions are: like, hide, disableComments.
+      operationId: performPostAction
+      tags:
+        - Posts
+      parameters:
+        - name: postId
+          in: path
+          type: string
+          required: true
+        - name: action
+          in: path
+          required: true
+          type: string
+          enum:
+            - like
+            - hide
+            - disableComments
+      responses:
+        '200':
+          $ref: '#/responses/EmptyObject'
+        default:
+          $ref: '#/responses/GeneralError'
+    delete:
+      summary: Cancel an action on post
+      description: |
+        Available actions are: like, hide, disableComments.
+      operationId: cancelPostAction
+      tags:
+        - Posts
+      parameters:
+        - name: postId
+          in: path
+          type: string
+          required: true
+        - name: action
+          in: path
+          type: string
+          enum:
+            - like
+            - hide
+            - disableComments
+          required: true
+      responses:
+        '200':
+          $ref: '#/responses/EmptyObject'
+        default:
+          $ref: '#/responses/GeneralError'
 parameters:
   limitParam:
     name: limit

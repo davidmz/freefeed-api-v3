@@ -14,7 +14,6 @@ post:
       required: true
       type: string
       enum: [ like, hide, disableComments ]
-      required: true
   responses:
     200:
       $ref: '#/responses/EmptyObject'
