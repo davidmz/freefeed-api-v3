@@ -18,4 +18,8 @@ properties:
     description: Usernames of banned users
     allOf:
       - $ref: '#/definitions/UsersWithDatesList'
-  # TODO write more
+  managedGroups:
+    description: Groups managed by current user
+    type: array
+    items: { type: string }
+    # TODO write more

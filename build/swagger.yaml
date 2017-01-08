@@ -796,6 +796,11 @@ definitions:
         description: Usernames of banned users
         allOf:
           - $ref: '#/definitions/UsersWithDatesList'
+      managedGroups:
+        description: Groups managed by current user
+        type: array
+        items:
+          type: string
   UserInfoExtended:
     type: object
     description: >
