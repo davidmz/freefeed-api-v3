@@ -18,7 +18,8 @@ properties:
     description: Attachment UID
   author:
     type: string
-    description: Attachment author's username
+    format: uuid
+    description: Attachment author's ID
   createdAt:
     type: string
     format: date-time

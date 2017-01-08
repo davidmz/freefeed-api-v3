@@ -17,7 +17,8 @@ properties:
     description: Post UID
   author:
     type: string
-    description: Post author's username
+    format: uuid
+    description: Post author ID
   body:
     type: string
     description: Post body

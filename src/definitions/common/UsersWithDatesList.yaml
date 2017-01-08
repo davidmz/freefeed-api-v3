@@ -1,13 +1,14 @@
 type: array
-description: List of usernames with timestamps
+description: List of user IDs with timestamps
 items:
   type: object
   required:
-    - userName
+    - id
     - date
   properties:
-    userName:
+    id:
       type: string
+      format: uuid
     date:
       type: string
       format: date-time

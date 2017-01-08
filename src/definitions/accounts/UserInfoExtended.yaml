@@ -37,15 +37,15 @@ properties:
         type: integer
         description: Count of user's likes
   subscriptions:
-    description: Usernames of users subscribed to account (empty if viewer cannot see this profile)
+    description: Users subscribed to account (empty if viewer cannot see this profile)
     allOf:
       - $ref: '#/definitions/UsersWithDatesList'
   subscribers:
-    description: Usernames of users account subscribed (empty if viewer cannot see this profile)
+    description: Users account subscribed to (empty if viewer cannot see this profile)
     allOf:
       - $ref: '#/definitions/UsersWithDatesList'
   administrators:
-    description: Not empty for groups only. Usernames of group administrators (empty if not a group or viewer cannot see this profile)
+    description: Not empty for groups only. Group administrators (empty if not a group or viewer cannot see this profile)
     allOf:
       - $ref: '#/definitions/UsersList'
   entities:

@@ -12,7 +12,8 @@ properties:
     description: Comment UID
   author:
     type: string
-    description: Comment author's username
+    format: uuid
+    description: Comment author's ID
   body:
     type: string
     description: Comment body

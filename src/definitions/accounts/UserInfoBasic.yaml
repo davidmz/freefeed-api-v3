@@ -3,6 +3,7 @@ description: |
   Basic user/group information. It returns in all cases
   when the user information required.
 required:
+  - id
   - userName
   - screenName
   - type
@@ -10,6 +11,10 @@ required:
   - isPrivate
   - pictureId
 properties:
+  id:
+    type: string
+    format: uuid
+    description: User ID
   userName:
     type: string
     description: User name

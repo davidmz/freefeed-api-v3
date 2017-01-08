@@ -4,14 +4,15 @@ info:
   version: "3.0.0-alpha"
   description: >
     This is a project of the next Freefeed API. Some notes:
-      * We are trying to get rid of UUID-s in public interfaces. So users and groups in this API are addressed by `userName`s, not by `ID`s
-      * Timelines are represented as `{"owner": "username", "name": "name"}` objects, also without `ID`s
       * API response can be:
         * Empty object `{}` for methods than should not return any data
         * Object with two required fields: `{"data": {…}, "entities": {…}}` where _data_ is the API answer and _entities_
-          is a collection of objects mentioned in _data_. For now _entities_ contains only _users_ field. For example a `/post/{postId}`
-          response probably have many comments and likes from same users. In _data_ object only usernames of these users are used, and
-          the _entities_ collection contain detailed data about all users mentioned in _data_: `{"data": {…}, "entities": {"users": […]}}`.
+          is a collection of objects mentioned in _data_. For now 'entities' can contain only 'users' and 'timelines' field.
+          For example a `/post/{postId}` response probably have many comments and likes from same users.
+          In _data_ object only usernames of these users are used, and the _entities_ collection contain detailed data
+          about all users mentioned in _data_: `{"data": {…}, "entities": {"users": […], "timelines": […]}}`.
+        * Error responses with two required fields `{"code": "NotFound", "message": "Account not found"}`
+          where 'code' is a machine-readable error code and 'message' is a human-readable one.
 
 host: freefeed.net
 basePath: /v3

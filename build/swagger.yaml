@@ -5,14 +5,15 @@ info:
   version: 3.0.0-alpha
   description: |
     This is a project of the next Freefeed API. Some notes:
-      * We are trying to get rid of UUID-s in public interfaces. So users and groups in this API are addressed by `userName`s, not by `ID`s
-      * Timelines are represented as `{"owner": "username", "name": "name"}` objects, also without `ID`s
       * API response can be:
         * Empty object `{}` for methods than should not return any data
         * Object with two required fields: `{"data": {…}, "entities": {…}}` where _data_ is the API answer and _entities_
-          is a collection of objects mentioned in _data_. For now _entities_ contains only _users_ field. For example a `/post/{postId}`
-          response probably have many comments and likes from same users. In _data_ object only usernames of these users are used, and
-          the _entities_ collection contain detailed data about all users mentioned in _data_: `{"data": {…}, "entities": {"users": […]}}`.
+          is a collection of objects mentioned in _data_. For now 'entities' can contain only 'users' and 'timelines' field.
+          For example a `/post/{postId}` response probably have many comments and likes from same users.
+          In _data_ object only usernames of these users are used, and the _entities_ collection contain detailed data
+          about all users mentioned in _data_: `{"data": {…}, "entities": {"users": […], "timelines": […]}}`.
+        * Error responses with two required fields `{"code": "NotFound", "message": "Account not found"}`
+          where 'code' is a machine-readable error code and 'message' is a human-readable one.
 host: freefeed.net
 basePath: /v3
 schemes:
@@ -838,6 +839,7 @@ definitions:
       Basic user/group information. It returns in all cases
       when the user information required.
     required:
+      - id
       - userName
       - screenName
       - type
@@ -845,6 +847,10 @@ definitions:
       - isPrivate
       - pictureId
     properties:
+      id:
+        type: string
+        format: uuid
+        description: User ID
       userName:
         type: string
         description: User name
@@ -951,21 +957,17 @@ definitions:
             type: integer
             description: Count of user's likes
       subscriptions:
-        description: >-
-          Usernames of users subscribed to account (empty if viewer cannot see
-          this profile)
+        description: Users subscribed to account (empty if viewer cannot see this profile)
         allOf:
           - $ref: '#/definitions/UsersWithDatesList'
       subscribers:
-        description: >-
-          Usernames of users account subscribed (empty if viewer cannot see this
-          profile)
+        description: Users account subscribed to (empty if viewer cannot see this profile)
         allOf:
           - $ref: '#/definitions/UsersWithDatesList'
       administrators:
         description: >-
-          Not empty for groups only. Usernames of group administrators (empty if
-          not a group or viewer cannot see this profile)
+          Not empty for groups only. Group administrators (empty if not a group
+          or viewer cannot see this profile)
         allOf:
           - $ref: '#/definitions/UsersList'
       entities:
@@ -993,13 +995,15 @@ definitions:
   EntitiesCollection:
     type: object
     description: Collection of entities referenced in top-level object
-    required:
-      - users
     properties:
       users:
         type: array
         items:
           $ref: '#/definitions/UserInfoBasic'
+      timelines:
+        type: array
+        items:
+          $ref: '#/definitions/Timeline'
   GeneralError:
     type: object
     description: General type for all API errors.
@@ -1015,20 +1019,22 @@ definitions:
         description: Human-readable error message
   UsersList:
     type: array
-    description: List of usernames
+    description: List of user IDs
     items:
       type: string
+      format: uuid
   UsersWithDatesList:
     type: array
-    description: List of usernames with timestamps
+    description: List of user IDs with timestamps
     items:
       type: object
       required:
-        - userName
+        - id
         - date
       properties:
-        userName:
+        id:
           type: string
+          format: uuid
         date:
           type: string
           format: date-time
@@ -1053,7 +1059,8 @@ definitions:
         description: Attachment UID
       author:
         type: string
-        description: Attachment author's username
+        format: uuid
+        description: Attachment author's ID
       createdAt:
         type: string
         format: date-time
@@ -1112,7 +1119,8 @@ definitions:
         description: Comment UID
       author:
         type: string
-        description: Comment author's username
+        format: uuid
+        description: Comment author's ID
       body:
         type: string
         description: Comment body
@@ -1140,7 +1148,8 @@ definitions:
         description: Post UID
       author:
         type: string
-        description: Post author's username
+        format: uuid
+        description: Post author ID
       body:
         type: string
         description: Post body
@@ -1188,12 +1197,18 @@ definitions:
     type: object
     description: Timeline data
     required:
+      - id
       - owner
       - name
     properties:
+      id:
+        type: string
+        format: uuid
+        description: Timeline UID
       owner:
         type: string
-        description: Timeline owner's username
+        format: uuid
+        description: Timeline owner's UID
       name:
         type: string
         description: Timeline name (type)

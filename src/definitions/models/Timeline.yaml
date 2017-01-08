@@ -1,12 +1,18 @@
 type: object
 description: Timeline data
 required:
+  - id
   - owner
   - name
 properties:
+  id:
+    type: string
+    format: uuid
+    description: Timeline UID
   owner:
     type: string
-    description: Timeline owner's username
+    format: uuid
+    description: Timeline owner's UID
   name:
     type: string
     description: Timeline name (type)
