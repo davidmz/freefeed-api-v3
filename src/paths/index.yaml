@@ -53,3 +53,7 @@
 
 /posts/{postId}/{action}:
   $ref: './posts/handleActions.yaml'
+
+/attachments:
+  post:
+    $ref: './posts/createAttachment.yaml'

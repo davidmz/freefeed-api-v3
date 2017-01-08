@@ -631,6 +631,25 @@ paths:
           $ref: '#/responses/EmptyObject'
         default:
           $ref: '#/responses/GeneralError'
+  /attachments:
+    post:
+      summary: Upload a new attachment
+      operationId: createAttachment
+      tags:
+        - Posts
+      consumes:
+        - multipart/form-data
+      parameters:
+        - name: file
+          description: Attachment file
+          in: formData
+          required: true
+          type: file
+      responses:
+        '200':
+          $ref: '#/responses/Attachment'
+        default:
+          $ref: '#/responses/GeneralError'
 parameters:
   limitParam:
     name: limit
@@ -699,6 +718,10 @@ responses:
     description: Comment response
     schema:
       $ref: '#/definitions/Comment'
+  Attachment:
+    description: Attachment response
+    schema:
+      $ref: '#/definitions/Attachment'
 definitions:
   NewGroupData:
     type: object

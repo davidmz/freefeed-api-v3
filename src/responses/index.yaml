@@ -50,3 +50,8 @@ Comment:
   description: Comment response
   schema:
     $ref: '#/definitions/Comment'
+
+Attachment:
+  description: Attachment response
+  schema:
+    $ref: '#/definitions/Attachment'

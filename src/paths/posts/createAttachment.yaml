@@ -1,0 +1,16 @@
+summary: Upload a new attachment
+operationId: createAttachment
+tags: [Posts]
+consumes:
+  - multipart/form-data
+parameters:
+  - name: file
+    description: Attachment file
+    in: formData
+    required: true
+    type: file
+responses:
+  200:
+    $ref: '#/responses/Attachment'
+  default:
+    $ref: '#/responses/GeneralError'
