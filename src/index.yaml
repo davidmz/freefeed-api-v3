@@ -2,6 +2,17 @@ swagger: '2.0'
 info:
   title: Freefeed API
   version: "3.0.0-alpha"
+  description: >
+    This is a project of the next Freefeed API. Some notes:
+      * We are trying to get rid of UUID-s in public interfaces. So users and groups in this API are addressed by `userName`s, not by `ID`s
+      * Timelines are represented as `{"owner": "username", "name": "name"}` objects, also without `ID`s
+      * API response can be:
+        * Empty object `{}` for methods than should not return any data
+        * Object with two required fields: `{"data": {…}, "entities": {…}}` where _data_ is the API answer and _entities_
+          is a collection of objects mentioned in _data_. For now _entities_ contains only _users_ field. For example a `/post/{postId}`
+          response probably have many comments and likes from same users. In _data_ object only usernames of these users are used, and
+          the _entities_ collection contain detailed data about all users mentioned in _data_: `{"data": {…}, "entities": {"users": […]}}`.
+
 host: freefeed.net
 basePath: /v3
 schemes:
@@ -18,7 +29,7 @@ parameters:
   $ref: './parameters/index.yaml'
 
 responses:
-  $ref: './responses/index.yaml'
+  $ref: './responses.yaml'
 
 definitions:
   $ref: './definitions/index.yaml'

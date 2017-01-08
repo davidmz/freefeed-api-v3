@@ -32,6 +32,4 @@ Comment:
 Post:
   $ref: models/Post.yaml
 Timeline:
-  $ref: timelines/Timeline.yaml
-TimelineResponse:
-  $ref: timelines/TimelineResponse.yaml
+  $ref: models/Timeline.yaml
