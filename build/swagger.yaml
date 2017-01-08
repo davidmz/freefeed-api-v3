@@ -801,6 +801,21 @@ definitions:
         type: array
         items:
           type: string
+      subscriptionRequests:
+        description: >-
+          Subscription requests related to current user (from himself or to him
+          and managed groups)
+        type: array
+        items:
+          type: object
+          properties:
+            from:
+              type: string
+            to:
+              type: string
+            date:
+              type: string
+              format: date-time
   UserInfoExtended:
     type: object
     description: >
