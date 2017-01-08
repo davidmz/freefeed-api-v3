@@ -784,6 +784,8 @@ definitions:
       - email
       - frontendPreferences
       - banned
+      - managedGroups
+      - subscriptionRequests
     properties:
       email:
         type: string
