@@ -48,5 +48,3 @@ properties:
     description: Not empty for groups only. Group administrators (empty if not a group or viewer cannot see this profile)
     allOf:
       - $ref: '#/definitions/UsersList'
-  entities:
-    $ref: '#/definitions/EntitiesCollection'

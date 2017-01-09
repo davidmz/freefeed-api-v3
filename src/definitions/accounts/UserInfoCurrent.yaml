@@ -29,8 +29,15 @@ properties:
     type: array
     items:
       type: object
+      required: [ from, to, date ]
       properties:
-        from: { type: string }
-        to: { type: string }
-        date: { type: string, format: date-time }
+        from:
+          type: string
+          format: uuid
+        to:
+          type: string
+          format: uuid
+        date:
+          type: string
+          format: date-time
   # TODO write more

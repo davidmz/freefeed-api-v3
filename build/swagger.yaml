@@ -1019,11 +1019,17 @@ definitions:
         type: array
         items:
           type: object
+          required:
+            - from
+            - to
+            - date
           properties:
             from:
               type: string
+              format: uuid
             to:
               type: string
+              format: uuid
             date:
               type: string
               format: date-time
@@ -1081,8 +1087,6 @@ definitions:
           or viewer cannot see this profile)
         allOf:
           - $ref: '#/definitions/UsersList'
-      entities:
-        $ref: '#/definitions/EntitiesCollection'
   UserProfile:
     allOf:
       - $ref: '#/definitions/UserInfoBasic'
