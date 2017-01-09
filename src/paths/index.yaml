@@ -45,11 +45,16 @@
   $ref: './posts/handlePosts.yaml'
 
 /posts/{postId}/comments:
-  post:
-    $ref: './posts/createComment.yaml'
+  $ref: './posts/handleComments.yaml'
 
 /posts/{postId}/comments/{commentId}:
   $ref: './posts/handleComment.yaml'
+
+/posts/{postId}/likes:
+  $ref: './posts/handleLikes.yaml'
+
+/posts/{postId}/likes/my:
+  $ref: './posts/handleMyLike.yaml'
 
 /posts/{postId}/{action}:
   $ref: './posts/handleActions.yaml'

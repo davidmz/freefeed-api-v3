@@ -1,0 +1,32 @@
+limitParam:
+  name: limit
+  in: query
+  description: Number of posts to show
+  default: 30
+  type: integer
+offsetParam:
+  name: offset
+  in: query
+  description: Number of posts to skip
+  default: 0
+  type: integer
+sortParam:
+  name: sort
+  in: query
+  description: Sort mode
+  type: string
+  enum: [ updated, created ]
+commentsShowModeParam:
+  name: comments
+  description: Show none, all or auto-collapsed comments
+  in: query
+  type: string
+  enum: [ none, all, auto ]
+  default: auto
+likesShowModeParam:
+  name: likes
+  description: Show none, all or auto-collapsed likes
+  in: query
+  type: string
+  enum: [ none, all, auto ]
+  default: auto

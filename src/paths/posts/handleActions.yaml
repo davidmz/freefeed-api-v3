@@ -1,7 +1,7 @@
 post:
   summary: Perform an action on post
   description: >
-    Available actions are: like, hide, disableComments.
+    Available actions are: hide, disableComments.
   operationId: performPostAction
   tags: [Posts]
   parameters:
@@ -13,7 +13,7 @@ post:
       in: path
       required: true
       type: string
-      enum: [ like, hide, disableComments ]
+      enum: [ hide, disableComments ]
   responses:
     200:
       $ref: '#/responses/EmptyObject'
@@ -23,7 +23,7 @@ post:
 delete:
   summary: Cancel an action on post
   description: >
-    Available actions are: like, hide, disableComments.
+    Available actions are: hide, disableComments.
   operationId: cancelPostAction
   tags: [Posts]
   parameters:
@@ -34,7 +34,7 @@ delete:
     - name: action
       in: path
       type: string
-      enum: [ like, hide, disableComments ]
+      enum: [ hide, disableComments ]
       required: true
   responses:
     200:

@@ -90,6 +90,45 @@ Comment:
       entities:
         $ref: '#/definitions/EntitiesCollection'
 
+Comments:
+  description: Comments list response
+  schema:
+    type: object
+    required: [ data, entites ]
+    properties:
+      data:
+        type: object
+        required: [ commentsCount, comments ]
+        properties:
+          commentsCount:
+            type: integer
+            description: Total number of comments
+          comments:
+            type: array
+            description: Post's comments
+            items:
+              $ref: '#/definitions/Comment'
+      entities:
+        $ref: '#/definitions/EntitiesCollection'
+
+Likes:
+  description: Likes list response
+  schema:
+    type: object
+    required: [ data, entites ]
+    properties:
+      data:
+        type: object
+        required: [ likesCount, likes ]
+        properties:
+          likesCount:
+            type: integer
+            description: Total number of likes
+          likes:
+            $ref: '#/definitions/UsersList'
+      entities:
+        $ref: '#/definitions/EntitiesCollection'
+
 Attachment:
   description: Attachment response
   schema:

@@ -1,0 +1,15 @@
+get:
+  summary: Get likes of post
+  operationId: getLikesOfPost
+  tags: [Posts]
+  parameters:
+    - name: postId
+      in: path
+      type: string
+      required: true
+    - $ref: '#/parameters/likesShowModeParam'
+  responses:
+    200:
+      $ref: '#/responses/Likes'
+    default:
+      $ref: '#/responses/GeneralError'

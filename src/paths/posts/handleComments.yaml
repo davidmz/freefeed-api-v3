@@ -1,0 +1,38 @@
+get:
+  summary: Get comments of post
+  operationId: getCommentsOfPost
+  tags: [Posts]
+  parameters:
+    - name: postId
+      in: path
+      type: string
+      required: true
+    - $ref: '#/parameters/commentsShowModeParam'
+  responses:
+    200:
+      $ref: '#/responses/Comments'
+    default:
+      $ref: '#/responses/GeneralError'
+
+post:
+  summary: Create comment
+  operationId: createComment
+  tags: [Posts]
+  parameters:
+    - name: postId
+      in: path
+      type: string
+      required: true
+    - name: body
+      in: body
+      schema:
+        type: object
+        required: [ body ]
+        properties:
+          body:
+            type: string
+  responses:
+    200:
+      $ref: '#/responses/Comment'
+    default:
+      $ref: '#/responses/GeneralError'

@@ -27,7 +27,7 @@ paths:
   $ref: './paths/index.yaml'
 
 parameters:
-  $ref: './parameters/index.yaml'
+  $ref: './parameters.yaml'
 
 responses:
   $ref: './responses.yaml'

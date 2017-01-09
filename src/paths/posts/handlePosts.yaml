@@ -7,18 +7,8 @@ get:
       in: path
       type: string
       required: true
-    - name: comments
-      description: Show none, all or auto-collapsed comments
-      in: query
-      type: string
-      enum: [ none, all, auto ]
-      default: auto
-    - name: likes
-      description: Show none, all or auto-collapsed likes
-      in: query
-      type: string
-      enum: [ none, all, auto ]
-      default: auto
+    - $ref: '#/parameters/commentsShowModeParam'
+    - $ref: '#/parameters/likesShowModeParam'
   responses:
     200:
       $ref: '#/responses/Post'

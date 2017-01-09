@@ -1,0 +1,29 @@
+post:
+  summary: Like post
+  operationId: likePost
+  tags: [Posts]
+  parameters:
+    - name: postId
+      in: path
+      type: string
+      required: true
+  responses:
+    200:
+      $ref: '#/responses/EmptyObject'
+    default:
+      $ref: '#/responses/GeneralError'
+
+delete:
+  summary: Unlike post
+  operationId: unlikePost
+  tags: [Posts]
+  parameters:
+    - name: postId
+      in: path
+      type: string
+      required: true
+  responses:
+    200:
+      $ref: '#/responses/EmptyObject'
+    default:
+      $ref: '#/responses/GeneralError'

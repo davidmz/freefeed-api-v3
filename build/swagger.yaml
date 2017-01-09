@@ -439,24 +439,8 @@ paths:
           in: path
           type: string
           required: true
-        - name: comments
-          description: 'Show none, all or auto-collapsed comments'
-          in: query
-          type: string
-          enum:
-            - none
-            - all
-            - auto
-          default: auto
-        - name: likes
-          description: 'Show none, all or auto-collapsed likes'
-          in: query
-          type: string
-          enum:
-            - none
-            - all
-            - auto
-          default: auto
+        - $ref: '#/parameters/commentsShowModeParam'
+        - $ref: '#/parameters/likesShowModeParam'
       responses:
         '200':
           $ref: '#/responses/Post'
@@ -519,6 +503,22 @@ paths:
         default:
           $ref: '#/responses/GeneralError'
   '/posts/{postId}/comments':
+    get:
+      summary: Get comments of post
+      operationId: getCommentsOfPost
+      tags:
+        - Posts
+      parameters:
+        - name: postId
+          in: path
+          type: string
+          required: true
+        - $ref: '#/parameters/commentsShowModeParam'
+      responses:
+        '200':
+          $ref: '#/responses/Comments'
+        default:
+          $ref: '#/responses/GeneralError'
     post:
       summary: Create comment
       operationId: createComment
@@ -591,11 +591,59 @@ paths:
           $ref: '#/responses/EmptyObject'
         default:
           $ref: '#/responses/GeneralError'
+  '/posts/{postId}/likes':
+    get:
+      summary: Get likes of post
+      operationId: getLikesOfPost
+      tags:
+        - Posts
+      parameters:
+        - name: postId
+          in: path
+          type: string
+          required: true
+        - $ref: '#/parameters/likesShowModeParam'
+      responses:
+        '200':
+          $ref: '#/responses/Likes'
+        default:
+          $ref: '#/responses/GeneralError'
+  '/posts/{postId}/likes/my':
+    post:
+      summary: Like post
+      operationId: likePost
+      tags:
+        - Posts
+      parameters:
+        - name: postId
+          in: path
+          type: string
+          required: true
+      responses:
+        '200':
+          $ref: '#/responses/EmptyObject'
+        default:
+          $ref: '#/responses/GeneralError'
+    delete:
+      summary: Unlike post
+      operationId: unlikePost
+      tags:
+        - Posts
+      parameters:
+        - name: postId
+          in: path
+          type: string
+          required: true
+      responses:
+        '200':
+          $ref: '#/responses/EmptyObject'
+        default:
+          $ref: '#/responses/GeneralError'
   '/posts/{postId}/{action}':
     post:
       summary: Perform an action on post
       description: |
-        Available actions are: like, hide, disableComments.
+        Available actions are: hide, disableComments.
       operationId: performPostAction
       tags:
         - Posts
@@ -609,7 +657,6 @@ paths:
           required: true
           type: string
           enum:
-            - like
             - hide
             - disableComments
       responses:
@@ -620,7 +667,7 @@ paths:
     delete:
       summary: Cancel an action on post
       description: |
-        Available actions are: like, hide, disableComments.
+        Available actions are: hide, disableComments.
       operationId: cancelPostAction
       tags:
         - Posts
@@ -633,7 +680,6 @@ paths:
           in: path
           type: string
           enum:
-            - like
             - hide
             - disableComments
           required: true
@@ -682,6 +728,26 @@ parameters:
     enum:
       - updated
       - created
+  commentsShowModeParam:
+    name: comments
+    description: 'Show none, all or auto-collapsed comments'
+    in: query
+    type: string
+    enum:
+      - none
+      - all
+      - auto
+    default: auto
+  likesShowModeParam:
+    name: likes
+    description: 'Show none, all or auto-collapsed likes'
+    in: query
+    type: string
+    enum:
+      - none
+      - all
+      - auto
+    default: auto
 responses:
   GeneralError:
     description: General error response
@@ -778,6 +844,51 @@ responses:
       properties:
         data:
           $ref: '#/definitions/Comment'
+        entities:
+          $ref: '#/definitions/EntitiesCollection'
+  Comments:
+    description: Comments list response
+    schema:
+      type: object
+      required:
+        - data
+        - entites
+      properties:
+        data:
+          type: object
+          required:
+            - commentsCount
+            - comments
+          properties:
+            commentsCount:
+              type: integer
+              description: Total number of comments
+            comments:
+              type: array
+              description: Post's comments
+              items:
+                $ref: '#/definitions/Comment'
+        entities:
+          $ref: '#/definitions/EntitiesCollection'
+  Likes:
+    description: Likes list response
+    schema:
+      type: object
+      required:
+        - data
+        - entites
+      properties:
+        data:
+          type: object
+          required:
+            - likesCount
+            - likes
+          properties:
+            likesCount:
+              type: integer
+              description: Total number of likes
+            likes:
+              $ref: '#/definitions/UsersList'
         entities:
           $ref: '#/definitions/EntitiesCollection'
   Attachment:
