@@ -9,7 +9,7 @@ required:
   - type
   - isProtected
   - isPrivate
-  - pictureId
+  - pictureURL
 properties:
   id:
     type: string
@@ -31,7 +31,6 @@ properties:
   isPrivate:
     type: boolean
     description: Is account private
-  pictureId:
+  pictureURL:
     type: string
-    format: uuid
-    description: User profile picture UID
+    description: User profile picture URL, empty string if user have no picture

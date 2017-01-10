@@ -5,6 +5,7 @@ required:
   - author
   - createdAt
   - mediaType
+  - originalURL
   - fileName
   - fileSize
   - width
@@ -34,23 +35,31 @@ properties:
   fileSize:
     type: integer
     description: Original file size
+  originalURL:
+    description: URL of original file
+    format: url
+    type: string
   imageSizes:
     description: Available image sizes (only for `image` type, [] for others)
     type: array
     items:
       type: object
-      required: [ sizeName, width, height ]
+      required: [ name, url, width, height ]
       properties:
-        sizeName:
+        name:
           description: >
-            Name of size version. At least 'orig' version must present.
+            Name of size version. At least 'original' version must present
+          type: string
+        url:
+          description: URL of size version
+          format: url
           type: string
         width:
           type: integer
-          description: Image width in pixels (only for `image` type, 0 for others)
+          description: Width in pixels
         height:
           type: integer
-          description: Image height in pixels (only for `image` type, 0 for others)
+          description: Height in pixels
   artist:
     type: string
     description: Audio artist name (only for `audio` type, '' for others)

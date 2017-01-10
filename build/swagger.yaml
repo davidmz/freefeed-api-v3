@@ -135,26 +135,6 @@ paths:
         default:
           $ref: '#/responses/GeneralError'
   '/accounts/{user}/profilePic':
-    get:
-      summary: Get user's profile picture ID
-      operationId: getUserProfilePic
-      tags:
-        - Accounts
-      parameters:
-        - name: user
-          description: Username
-          in: path
-          required: true
-          type: string
-      responses:
-        '200':
-          $ref: '#/responses/UserProfilePicture'
-        '404':
-          description: User has no profile picture
-          schema:
-            $ref: '#/responses/GeneralError'
-        default:
-          $ref: '#/responses/GeneralError'
     post:
       summary: Upload a new profile picture
       operationId: setUserProfilePic
@@ -788,7 +768,7 @@ responses:
         entities:
           $ref: '#/definitions/EntitiesCollection'
   UserProfilePicture:
-    description: Profile picture UID
+    description: Profile picture URL
     schema:
       type: object
       required:
@@ -956,7 +936,7 @@ definitions:
       - type
       - isProtected
       - isPrivate
-      - pictureId
+      - pictureURL
     properties:
       id:
         type: string
@@ -980,10 +960,9 @@ definitions:
       isPrivate:
         type: boolean
         description: Is account private
-      pictureId:
+      pictureURL:
         type: string
-        format: uuid
-        description: User profile picture UID
+        description: 'User profile picture URL, empty string if user have no picture'
   UserInfoCurrent:
     type: object
     description: >
@@ -1098,12 +1077,12 @@ definitions:
   UserProfilePicture:
     type: object
     required:
-      - id
+      - url
     properties:
-      id:
+      url:
         type: string
-        format: uuid
-        description: Profile picture UID
+        format: url
+        description: Profile picture URL
   EmptyObject:
     type: object
     description: Empty object.
@@ -1161,6 +1140,7 @@ definitions:
       - author
       - createdAt
       - mediaType
+      - originalURL
       - fileName
       - fileSize
       - width
@@ -1193,26 +1173,35 @@ definitions:
       fileSize:
         type: integer
         description: Original file size
+      originalURL:
+        description: URL of original file
+        format: url
+        type: string
       imageSizes:
         description: 'Available image sizes (only for `image` type, [] for others)'
         type: array
         items:
           type: object
           required:
-            - sizeName
+            - name
+            - url
             - width
             - height
           properties:
-            sizeName:
+            name:
               description: |
-                Name of size version. At least 'orig' version must present.
+                Name of size version. At least 'original' version must present
+              type: string
+            url:
+              description: URL of size version
+              format: url
               type: string
             width:
               type: integer
-              description: 'Image width in pixels (only for `image` type, 0 for others)'
+              description: Width in pixels
             height:
               type: integer
-              description: 'Image height in pixels (only for `image` type, 0 for others)'
+              description: Height in pixels
       artist:
         type: string
         description: 'Audio artist name (only for `audio` type, '''' for others)'

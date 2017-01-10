@@ -1,8 +1,8 @@
 type: object
 required:
-  - id
+  - url
 properties:
-  id:
+  url:
     type: string
-    format: uuid
-    description: Profile picture UID
+    format: url
+    description: Profile picture URL

@@ -36,7 +36,7 @@ UserProfileCurrent:
         $ref: '#/definitions/EntitiesCollection'
 
 UserProfilePicture:
-  description: Profile picture UID
+  description: Profile picture URL
   schema:
     type: object
     required: [ data, entites ]
